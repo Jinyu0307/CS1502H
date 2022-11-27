@@ -1,0 +1,27 @@
+#include <iostream> 
+#include <string>
+#include <unordered_set>
+
+using namespace std;
+
+// 滑动窗口
+// 用unordered_set 来存储窗口元素，便于查找。
+
+int main() {
+    string s;
+    cin >> s;
+
+    unordered_set<char> charSet;
+    int size = s.size();
+    int res = 0, i = 0, j = 0;
+	while (i < size && j < size) {
+		if (charSet.find(s[j]) == charSet.end()) {
+            charSet.insert(s[j++]);
+            res = max(res, j - i);
+        } else {
+            charSet.erase(s[i++]);
+        }
+	}
+    cout << res;
+    return 0;
+}
