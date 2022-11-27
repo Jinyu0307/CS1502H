@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void insertion_sort(vector<int> &nums, int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = i; j > 0 && nums[j] > nums[j - 1]; --j)
+        {
+            swap(nums[j], nums[j - 1]);
+        }
+    }
+}
+
+int main()
+{
+    int N, L;
+    cin >> N >> L;
+
+    vector<int> time;
+    for (int i = 0; i < N; ++i)
+    {
+        int tmp;
+        cin >> tmp;
+        if (i % 2 == 0)
+        {
+            time.push_back(L - tmp);
+        }
+        else
+        {
+            time.push_back(tmp);
+        }
+    }
+
+    insertion_sort(time, time.size());
+
+    cout << time[time.size() - 1] << ' ' << time[0] << endl;
+
+    return 0;
+}
