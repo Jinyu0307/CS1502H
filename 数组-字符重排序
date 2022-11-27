@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    string s;
+    getline(cin, s);
+
+    int slow = 0, fast = 0;
+
+    for (; fast < s.size(); ++fast)
+    {
+        int i = 0;
+        for (; i < slow; ++i)
+        {
+            if (s[fast] == s[i])
+            {
+                break;
+            }
+        }
+        if (i == slow)
+        {
+            s[slow++] = s[fast];
+        }
+    }
+
+    for (int i = 0; i < slow; ++i)
+    {
+        for (int j = i; j > 0 && s[j] > s[j - 1]; --j)
+        {
+            swap(s[j], s[j - 1]);
+        }
+    }
+
+    for (int i = 0; i < slow; ++i)
+    {
+        cout << s[i];
+    }
+    return 0;
+}
