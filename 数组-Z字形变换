@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+string convert(string s, int numRows) {
+    int len = s.size();
+        if (len == 0)
+            return "";
+
+        if (numRows == 1 || numRows >= s.length())
+            return s;
+
+        vector<string> res(min(numRows, len));
+
+        bool flag = false;
+        int row = 0; 
+
+        for (int index = 0; index < len; index++)
+        {
+            res[row].push_back(s[index]);
+            if (row == 0 || row == numRows - 1)
+            {
+                flag = !flag;
+            }
+
+            row += flag ? 1 : -1;
+        }
+        string result;
+        for (int index = 0; index < min(numRows, len); index++)
+        {
+            result = result + res[index];
+        }
+        return result;
+}
+
+int main() 
+{
+    int n;
+    string s;
+
+    cin >> n >> s;
+    
+    cout << convert(s, n);
+  return 0;
+}
