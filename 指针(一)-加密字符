@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main()
+{
+    /*Start your code here*/
+    string vc;
+    getline(cin, vc);
+
+    int size = vc.size();
+    for (int i = 0; i < size; ++i) {
+        int itmp = vc[i];
+        switch (i % 7)
+		{
+		case 0:
+            itmp += 8;
+            break;
+        case 1:
+            itmp += 7;
+            break;
+        case 2:
+            itmp += 3;
+            break;
+        case 3:
+            itmp += 4;
+            break;
+        case 4:
+            itmp += 9;
+            break;
+        case 5:
+            itmp += 6;
+            break;
+        case 6:
+            itmp += 2;
+            break;
+
+        default:
+			break;
+		}
+		if (itmp > 122) {
+            itmp %= 91;
+        }
+        char ctmp = itmp;
+        cout << ctmp;
+    }
+
+    cout << endl;
+
+	for (auto e : vc) {
+        cout << e;
+    }
+    /*end your code*/
+    return 0;
+}
