@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+//双指针解法，从中间向两边扩展判断。
+
+//实现一个函数寻找最长回文串
+string palindrome(string &s, int left, int right) {
+	while (left >= 0 && right < s.size() && s[left] == s[right]) {
+        --left;
+        ++right;
+    }
+    return s.substr(left + 1, right - left - 1);
+}
+
+//实现寻找全字母字符串中最长回文串
+string longestPalindrome(string &s) {
+    string res;
+    for (int i = 0; i < s.size(); ++i) {
+        string s1 = palindrome(s, i, i);
+        string s2 = palindrome(s, i, i + 1);
+        res = s1.size() > res.size() ? s1 : res;
+        res = s2.size() > res.size() ? s2 : res;
+    }
+    return res;
+}
+
+// kmp算法 查找 res_alpha 在 s_alpha中的位置，便于使用s_index输出结果
+
+// 构造前缀表
+void getNext(int *next, const string &s)
+{
+    int j = 0;
+    next[0] = 0;
+    for (int i = 1; i < s.size(); ++i)
+    {
+        while (j > 0 && s[i] != s[j])
+        {
+            j = next[j - 1];
+        }
+        if (s[i] == s[j])
+        {
+            ++j;
+        }
+        next[i] = j;
+    }
+}
+
+// 查找函数
+int strStr(string haystack, string needle)
+{
+    if (needle.size() == 0)
+    {
+        return 0;
+    }
+    int next[needle.size()];
+    getNext(next, needle);
+    int j = 0;
+    for (int i = 0; i < haystack.size(); ++i)
+    {
+        while (j > 0 && haystack[i] != needle[j])
+        {
+            j = next[j - 1];
+        }
+        if (haystack[i] == needle[j])
+        {
+            ++j;
+        }
+        if (j == needle.size())
+        {
+            return (i - needle.size() + 1);
+        }
+    }
+    return -1;
+}
+
+int main() {
+    string s;
+    string subs;
+    string s_alpha;
+    vector<int> s_index;
+
+    while (getline(cin, subs)) {
+        s += subs;
+        s += "\n";
+    }
+
+    for (int i = 0; i < s.size(); ++i) {
+		if (islower(s[i])) {
+            s_alpha.append(1, s[i]);
+            s_index.push_back(i);
+        }
+		if (isupper(s[i])) {
+            s_alpha.append(1, tolower(s[i]));
+            s_index.push_back(i);
+        }
+	}
+
+    string res_alpha = longestPalindrome(s_alpha);
+
+    int alpha_size = res_alpha.size();
+
+    int alpha_index = strStr(s_alpha, res_alpha);
+    int res_begin = s_index[alpha_index];
+    int res_end = s_index[alpha_index + alpha_size - 1];
+
+    cout << alpha_size << endl;
+    for (int i = res_begin; i <= res_end; ++i) {
+        cout << s[i];
+    }
+}
